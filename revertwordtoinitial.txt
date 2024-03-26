@@ -1,0 +1,23 @@
+// MINIMUM NUMBER OF OPERATIONS TO REVERT WORD TO INITIAL STATE
+in this we can remove first k characters from the given string and then add any k characters to the end of the string,we have to find the minimum number of operations
+
+
+/////////////////////////////////////////INTUITION Behind the ques//////////////////
+since after performing the operations we have to get the original string back,therefore it is obvious that we have to add that same characters back which we will be removing
+however this will also not give the optimal answer
+the optimal answer can be obtained by:
+store the initial string in a variable
+whenever  k characters are removed ,then we have to compare the  left over string with the first n-k characters original string,if at any point they both become equal ,that will be the minimum number of operations,we dont have to be accountable for the characters which we are adding or deleting.we just have to return the minimum number of operations
+
+////////////////////////////////////////CODE
+ int minimumTimeToInitialState(string word, int k) {
+        int c=1;
+        int n=word.length();
+        for(int i=k;i<n;i+=k){
+            string s1=word.substr(i,n-i);
+            string s2=word.substr(0,n-i);
+            if(s1==s2)return c;
+            c++;
+        }
+        return c;
+    }

@@ -1,0 +1,39 @@
+As we can observe that we can move any character to any index in any of the given strings, so to simply calculate maximum possible palindromes we check frequencies of all characters, then we store the sizes of strings in a vector and sort it, we need to find palindromes of these sizes. After this we break frequencies of chars into odd and even, such that if freq is odd then freq-1 gets added to even and 1 gets added to odd, if freq is even freq gets added to the even.
+
+Now we traverse on sizes vector, if sizes[i] is even we need even pairs that we substract from even variable, if sizes[i] is odd we substract 1 from it and that we take form even variable and remaining one is taken from odd if it is greater than 1 else we take 1 from even and also add 1 to the odd as a pair has been broken(2 is removed from even).
+
+//////CODE//////
+ int maxPalindromesAfterOperations(vector<string>& words) {
+        int n=words.size();
+        map<char,int>mp;
+        vector<int>sizes;
+        for(int i=0;i<n;i++){
+            sizes.push_back(words[i].size());
+        }
+        sort(sizes.begin(),sizes.end());
+        for(int i=0;i<n;i++){
+            for(int j=0;j<words[i].length();j++)
+            mp[words[i][j]]++;
+        }
+        int ans=0,even=0,odd=0;
+        for(auto it:mp){
+            even+=it.second/2;
+            odd+=it.second%2;
+        }
+        for(int i=0;i<n;i++){
+            //if it is an even length palindrome
+            if(sizes[i]%2==1){
+                  if(odd){
+                    odd-=1;
+                  }
+                  else{
+                    even--;
+                    odd+=1;
+                  }
+            }
+            if(even<sizes[i]/2)break;
+            even-=sizes[i]/2;
+            ans++;
+        }
+        return ans;
+    }
